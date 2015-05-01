@@ -1,6 +1,22 @@
 var app = angular.module('chatroom');
 
 app.controller('mainCtrl', function($scope, parseService){
+
+  $scope.getParseData = function () {
+    parseService.getData().then(function(data){
+      $scope.messages = data.data.results;
+      console.log(data);
+    });
+  }
+
+  $scope.postData = function (message) {
+    parseService.postData(message);
+    $scope.message = '';
+  }
+
+  setInterval(function(){
+    $scope.getParseData();
+  }, 1500)
   //In your controller you'll have a getParseData function and a postData function, but should be placed on $scope.
 
   //The getParseData function will call the getData method on the parseService object. You'll then save the result of that request to 
@@ -15,8 +31,6 @@ app.controller('mainCtrl', function($scope, parseService){
 
 
   //uncomment this code when your getParseData function is finished
-  //This goes and gets new data every second, which mimicking a chat room experience.
-  // setInterval(function(){
-  //   $scope.getParseData();
-  // }, 1500)
+  // This goes and gets new data every second, which mimicking a chat room experience.
+  
 })
